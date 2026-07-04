@@ -7,11 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <style>
         /* ===== RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #000;
             color: #e8e8e8;
@@ -29,19 +25,24 @@
             width: 100%;
             background: #0a0a0a;
             border-radius: 32px;
-            padding: 32px 28px 36px;
+            padding: 24px 20px 28px;
             border: 1px solid #1a1a1a;
             box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            height: 95vh;
+            max-height: 800px;
         }
         /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 16px;
+            flex-shrink: 0;
         }
         .logo {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             color: #fff;
             letter-spacing: -0.5px;
@@ -52,11 +53,9 @@
             font-weight: 600;
             background: #111;
             color: #555;
-            padding: 6px 14px;
+            padding: 4px 12px;
             border-radius: 100px;
             border: 1px solid #1e1e1e;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -71,188 +70,161 @@
         }
         @keyframes pulse { 50% { opacity: .4; transform: scale(.8); } }
 
-        /* ===== LANGUAGE SELECTOR ===== */
-        .lang-bar {
+        /* ===== MODEL SELECTOR ===== */
+        .model-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 24px;
-            justify-content: center;
+            gap: 4px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
         }
-        .lang-btn {
+        .model-chip {
             background: #0d0d0d;
             border: 1px solid #1a1a1a;
             border-radius: 40px;
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 500;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 600;
             color: #888;
             cursor: pointer;
             transition: all .2s;
             font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
-        .lang-btn:hover {
+        .model-chip:hover {
             background: #181818;
             border-color: #ff2d2d;
             color: #fff;
         }
-        .lang-btn.active {
+        .model-chip.active {
             background: #1a0808;
             border-color: #ff2d2d;
             color: #ff2d2d;
         }
-        .lang-btn .flag { font-size: 16px; }
 
         /* ===== SECURITY BANNER ===== */
         .security-banner {
             background: #0d0d0d;
             border: 1px solid #181818;
-            border-radius: 14px;
-            padding: 14px 18px;
-            margin-bottom: 28px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .security-banner .shield { font-size: 18px; flex-shrink: 0; }
-        .security-banner .text {
-            font-size: 13px;
-            color: #777;
-            line-height: 1.5;
-        }
-        .security-banner .text strong { color: #ff3b3b; font-weight: 600; }
-
-        /* ===== MAIN TITLE ===== */
-        .main-title {
-            font-size: 30px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -0.8px;
-            margin-bottom: 2px;
-        }
-        .sub-title {
-            font-size: 15px;
-            color: #555;
-            margin-bottom: 24px;
-        }
-
-        /* ===== MODEL GRID ===== */
-        .model-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-        .model-btn {
-            background: #0d0d0d;
-            border: 1px solid #1a1a1a;
             border-radius: 12px;
-            padding: 14px 6px;
-            color: #888;
-            font-family: 'Inter', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all .25s;
-            line-height: 1.4;
-        }
-        .model-btn .sub {
-            display: block;
-            font-weight: 400;
-            font-size: 8px;
-            color: #444;
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: .4px;
-        }
-        .model-btn:hover {
-            background: #141414;
-            border-color: #ff2d2d;
-            color: #fff;
-        }
-        .model-btn.active {
-            background: #1a0808;
-            border-color: #ff2d2d;
-            color: #ff2d2d;
-            box-shadow: 0 0 30px rgba(255,45,45,.04);
-        }
-        .model-btn.active .sub { color: #882222; }
-
-        /* ===== FEATURES ===== */
-        .feature-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            margin-bottom: 24px;
-        }
-        .feature-btn {
-            background: transparent;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 14px;
-            color: #999;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            text-align: left;
-            cursor: pointer;
-            transition: all .15s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .feature-btn:hover {
-            background: #0d0d0d;
-            color: #fff;
-        }
-        .feature-btn .icon { font-size: 15px; width: 24px; text-align: center; color: #444; flex-shrink: 0; }
-        .feature-btn .label { flex: 1; }
-        .feature-btn .desc {
-            font-size: 11px;
-            color: #444;
-            font-weight: 400;
-        }
-
-        /* ===== CHAT AREA ===== */
-        .chat-area {
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+        .security-banner .shield { font-size: 16px; flex-shrink: 0; }
+        .security-banner .text {
+            font-size: 11px;
+            color: #777;
+            line-height: 1.4;
+        }
+        .security-banner .text strong { color: #ff3b3b; }
+
+        /* ===== CHAT MESSAGES ===== */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 12px;
+            padding-right: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 0;
+        }
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 10px;
+        }
+
+        .msg {
+            max-width: 90%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .msg.user {
+            align-self: flex-end;
+            background: #1a0808;
+            border: 1px solid #2a0a0a;
+            color: #ff6b6b;
+        }
+        .msg.bot {
+            align-self: flex-start;
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            color: #e0e0e0;
+        }
+        .msg.bot .model-name {
+            font-size: 9px;
+            color: #ff2d2d;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .msg .typing {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #555;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .msg .typing:nth-child(2) { animation-delay: 0.2s; }
+        .msg .typing:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        /* ===== CHAT INPUT ===== */
+        .chat-input {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
             background: #0a0a0a;
             border: 1px solid #1a1a1a;
             border-radius: 16px;
-            padding: 4px 4px 4px 18px;
+            padding: 4px 4px 4px 16px;
             transition: border-color .25s;
         }
-        .chat-area:focus-within {
+        .chat-input:focus-within {
             border-color: #ff2d2d;
             box-shadow: 0 0 30px rgba(255,45,45,.03);
         }
-        .chat-area input {
+        .chat-input input {
             flex: 1;
             background: transparent;
             border: none;
             outline: none;
             color: #e0e0e0;
             font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            font-weight: 400;
-            padding: 14px 0;
+            font-size: 14px;
+            padding: 12px 0;
             min-width: 0;
         }
-        .chat-area input::placeholder { color: #3a3a3a; }
-        .chat-area .send-btn {
+        .chat-input input::placeholder { color: #3a3a3a; }
+        .chat-input .send-btn {
             background: #ff2d2d;
             border: none;
             color: #fff;
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 14px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             transition: background .2s;
             display: flex;
@@ -260,41 +232,38 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        .chat-area .send-btn:hover { background: #ff4444; }
+        .chat-input .send-btn:hover { background: #ff4444; }
+        .chat-input .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         /* ===== FOOTER ===== */
         .footer {
-            margin-top: 24px;
+            margin-top: 10px;
             text-align: center;
-            font-size: 11px;
+            font-size: 9px;
             font-weight: 500;
             color: #222;
             letter-spacing: .5px;
+            flex-shrink: 0;
         }
         .footer .accent { color: #ff2d2d; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 460px) {
-            .container { padding: 20px 16px 24px; border-radius: 24px; }
-            .main-title { font-size: 24px; }
-            .model-grid { gap: 6px; }
-            .model-btn { font-size: 10px; padding: 12px 4px; }
-            .model-btn .sub { font-size: 7px; }
-            .feature-btn { font-size: 13px; padding: 10px 10px; }
-            .feature-btn .desc { font-size: 10px; }
-            .chat-area { padding: 4px 4px 4px 14px; }
-            .chat-area input { font-size: 14px; padding: 12px 0; }
-            .chat-area .send-btn { width: 44px; height: 44px; font-size: 16px; border-radius: 12px; }
-            .lang-btn { font-size: 10px; padding: 4px 10px; }
-        }
-        @media (max-width: 370px) {
-            .model-grid { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 16px 14px 20px; border-radius: 24px; }
+            .logo { font-size: 17px; }
+            .model-chip { font-size: 8px; padding: 3px 8px; }
+            .msg { font-size: 13px; padding: 8px 12px; }
+            .chat-input input { font-size: 13px; padding: 10px 0; }
+            .chat-input .send-btn { width: 40px; height: 40px; font-size: 14px; border-radius: 12px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="app">
+<div class="container">
 
     <!-- HEADER -->
     <div class="header">
@@ -302,91 +271,39 @@
         <div class="status"><span class="dot"></span> <span id="statusText">online</span></div>
     </div>
 
-    <!-- LANGUAGE SELECTOR -->
-    <div class="lang-bar">
-        <button class="lang-btn active" data-lang="en"><span class="flag">🇬🇧</span> EN</button>
-        <button class="lang-btn" data-lang="ar"><span class="flag">🇸🇦</span> AR</button>
-        <button class="lang-btn" data-lang="fa"><span class="flag">🇮🇷</span> FA</button>
-        <button class="lang-btn" data-lang="az"><span class="flag">🇦🇿</span> AZ</button>
-        <button class="lang-btn" data-lang="hi"><span class="flag">🇮🇳</span> HI</button>
-        <button class="lang-btn" data-lang="de"><span class="flag">🇩🇪</span> DE</button>
-        <button class="lang-btn" data-lang="fr"><span class="flag">🇫🇷</span> FR</button>
+    <!-- MODEL SELECTOR -->
+    <div class="model-bar" id="modelBar">
+        <button class="model-chip active" data-model="wormgpt-4o">wormgpt 4o</button>
+        <button class="model-chip" data-model="wormgpt-2.5">wormgpt 2.5</button>
+        <button class="model-chip" data-model="wormgpt-3">wormgpt 3</button>
+        <button class="model-chip" data-model="wormgpt-code">wormgpt code</button>
+        <button class="model-chip" data-model="wormgpt-sonnet">wormgpt sonnet</button>
+        <button class="model-chip" data-model="wormgpt-gemma">wormgpt gemma</button>
     </div>
 
     <!-- SECURITY BANNER -->
     <div class="security-banner">
         <span class="shield">🛡️</span>
         <span class="text" id="securityText">
-            <strong>This page is protected by our team's strongest security protocols.</strong><br>
+            <strong>This page is protected by our team's strongest security protocols.</strong>
             All messages will be deleted upon exit.
         </span>
     </div>
 
-    <!-- MAIN TITLE -->
-    <div class="main-title" id="mainTitle">+wormgpt Alfa</div>
-    <div class="sub-title" id="subTitle">How can I help you today?</div>
-
-    <!-- MODEL GRID -->
-    <div class="model-grid">
-        <button class="model-btn active" data-model="wormgpt-4o">
-            wormgpt 4o
-            <span class="sub">flagship</span>
-        </button>
-        <button class="model-btn" data-model="wormgpt-2.5">
-            wormgpt 2.5
-            <span class="sub">deepseek r2</span>
-        </button>
-        <button class="model-btn" data-model="wormgpt-3">
-            wormgpt 3
-            <span class="sub">deepseek r3</span>
-        </button>
-        <button class="model-btn" data-model="wormgpt-code">
-            wormgpt code
-            <span class="sub">opencode</span>
-        </button>
-        <button class="model-btn" data-model="wormgpt-sonnet">
-            wormgpt sonnet
-            <span class="sub">claude</span>
-        </button>
-        <button class="model-btn" data-model="wormgpt-gemma">
-            wormgpt gemma
-            <span class="sub">google</span>
-        </button>
+    <!-- CHAT MESSAGES -->
+    <div class="chat-messages" id="chatMessages">
+        <!-- پیام‌ها اینجا اضافه میشن -->
     </div>
 
-    <!-- FEATURES -->
-    <div class="feature-list">
-        <button class="feature-btn" data-feature="vuln">
-            <span class="icon">🛡️</span>
-            <span class="label">VULN_SCAN</span>
-            <span class="desc">Audit code for CVEs</span>
-        </button>
-        <button class="feature-btn" data-feature="net">
-            <span class="icon">🌐</span>
-            <span class="label">NET_RECON</span>
-            <span class="desc">Network mapping &amp; port scanning</span>
-        </button>
-        <button class="feature-btn" data-feature="exploit">
-            <span class="icon">💀</span>
-            <span class="label">EXPLOIT_DEV</span>
-            <span class="desc">Research &amp; educational exploit analysis</span>
-        </button>
-        <button class="feature-btn" data-feature="crypto">
-            <span class="icon">🔐</span>
-            <span class="label">CRYPTO_OPS</span>
-            <span class="desc">Encryption, hashing &amp; security protocols</span>
-        </button>
-    </div>
-
-    <!-- CHAT -->
-    <div class="chat-area">
+    <!-- CHAT INPUT -->
+    <div class="chat-input">
         <input type="text" id="userInput" placeholder="Ask anything..." autocomplete="off" />
         <button class="send-btn" id="sendBtn">➤</button>
     </div>
 
     <!-- FOOTER -->
     <div class="footer">
-        <span class="accent">⚡</span> <span id="footerText">powered by</span> <span class="accent">+wormgpt Alfa</span> <span class="accent">⚡</span>
+        <span class="accent">⚡</span> powered by <span class="accent">+wormgpt Alfa</span> <span class="accent">⚡</span>
     </div>
 
 </div>
@@ -395,266 +312,191 @@
     (function() {
         'use strict';
 
-        // ============================================================
-        // 1. TRANSLATIONS
-        // ============================================================
-        const L10N = {
-            en: {
-                status: 'online',
-                security: '<strong>This page is protected by our team\'s strongest security protocols.</strong><br>All messages will be deleted upon exit.',
-                mainTitle: '+wormgpt Alfa',
-                subTitle: 'How can I help you today?',
-                placeholder: 'Ask anything...',
-                footer: 'powered by',
-                features: {
-                    vuln: { label: 'VULN_SCAN', desc: 'Audit code for CVEs' },
-                    net:  { label: 'NET_RECON', desc: 'Network mapping & port scanning' },
-                    exploit: { label: 'EXPLOIT_DEV', desc: 'Research & educational exploit analysis' },
-                    crypto: { label: 'CRYPTO_OPS', desc: 'Encryption, hashing & security protocols' }
-                }
-            },
-            ar: {
-                status: 'متصل',
-                security: '<strong>هذه الصفحة محمية بأقوى بروتوكولات الأمان لفريقنا.</strong><br>سيتم حذف جميع الرسائل عند الخروج.',
-                mainTitle: '+wormgpt ألفا',
-                subTitle: 'كيف يمكنني مساعدتك اليوم؟',
-                placeholder: 'اسأل أي شيء...',
-                footer: 'مدعوم من',
-                features: {
-                    vuln: { label: 'VULN_SCAN', desc: 'تدقيق الكود بحثًا عن الثغرات' },
-                    net:  { label: 'NET_RECON', desc: 'مسح الشبكات والمنافذ' },
-                    exploit: { label: 'EXPLOIT_DEV', desc: 'تحليل الثغرات التعليمي' },
-                    crypto: { label: 'CRYPTO_OPS', desc: 'التشفير والتجزئة والبروتوكولات' }
-                }
-            },
-            fa: {
-                status: 'آنلاین',
-                security: '<strong>این صفحه با قوی‌ترین پروتکل‌های امنیتی تیم ما محافظت می‌شود.</strong><br>پس از خروج، تمامی پیام‌ها پاک می‌شوند.',
-                mainTitle: '+wormgpt آلفا',
-                subTitle: 'امروز چطور می‌تونم کمکت کنم؟',
-                placeholder: 'هر چیزی بپرس...',
-                footer: 'قدرت گرفته از',
-                features: {
-                    vuln: { label: 'VULN_SCAN', desc: 'بررسی کد برای آسیب‌پذیری‌ها' },
-                    net:  { label: 'NET_RECON', desc: 'نقشه‌برداری شبکه و اسکن پورت' },
-                    exploit: { label: 'EXPLOIT_DEV', desc: 'تحلیل اکسپلویت‌های آموزشی' },
-                    crypto: { label: 'CRYPTO_OPS', desc: 'رمزنگاری، هش و پروتکل‌های امنیتی' }
-                }
-            },
-            az: {
-                status: 'online',
-                security: '<strong>Bu səhifə komandamızın ən güclü təhlükəsizlik protokolları ilə qorunur.</strong><br>Çıxış zamanı bütün mesajlar silinəcək.',
-                mainTitle: '+wormgpt Alfa',
-                subTitle: 'Bu gün sizə necə kömək edə bilərəm?',
-                placeholder: 'Bir şey soruş...',
-                footer: 'tərəfindən təchiz edilmişdir',
-                features: {
-                    vuln: { label: 'VULN_SCAN', desc: 'Kodun təhlükəsizlik açıqlarını yoxla' },
-                    net:  { label: 'NET_RECON', desc: 'Şəbəkə xəritəsi və port skanı' },
-                    exploit: { label: 'EXPLOIT_DEV', desc: 'Təhsil eksploit analizi' },
-                    crypto: { label: 'CRYPTO_OPS', desc: 'Şifrələmə, heş və təhlükəsizlik protokolları' }
-                }
-            },
-            hi: {
-                status: 'ऑनलाइन',
-                security: '<strong>इस पेज को हमारी टीम के सबसे मजबूत सुरक्षा प्रोटोकॉल द्वारा संरक्षित किया जाता है।</strong><br>बाहर निकलने पर सभी संदेश हटा दिए जाएंगे।',
-                mainTitle: '+wormgpt अल्फा',
-                subTitle: 'आज मैं आपकी कैसे मदद कर सकता हूँ?',
-                placeholder: 'कुछ भी पूछें...',
-                footer: 'द्वारा संचालित',
-                features: {
-                    vuln: { label: 'VULN_SCAN', desc: 'CVEs के लिए कोड ऑडिट' },
-                    net:  { label: 'NET_RECON', desc: 'नेटवर्क मैपिंग और पोर्ट स्कैनिंग' },
-                    exploit: { label: 'EXPLOIT_DEV', desc: 'शैक्षिक एक्सप्लॉइट विश्लेषण' },
-                    crypto: { label: 'CRYPTO_OPS', desc: 'एन्क्रिप्शन, हैशिंग और सुरक्षा प्रोटोकॉल' }
-                }
-            },
-            de: {
-                status: 'online',
-                security: '<strong>Diese Seite wird durch die stärksten Sicherheitsprotokolle unseres Teams geschützt.</strong><br>Alle Nachrichten werden beim Verlassen gelöscht.',
-                mainTitle: '+wormgpt Alfa',
-                subTitle: 'Wie kann ich Ihnen heute helfen?',
-                placeholder: 'Fragen Sie alles...',
-                footer: 'bereitgestellt von',
-                features: {
-                    vuln: { label: 'VULN_SCAN', desc: 'Code auf CVEs prüfen' },
-                    net:  { label: 'NET_RECON', desc: 'Netzwerk-Mapping und Port-Scanning' },
-                    exploit: { label: 'EXPLOIT_DEV', desc: 'Forschung & Bildung Exploit-Analyse' },
-                    crypto: { label: 'CRYPTO_OPS', desc: 'Verschlüsselung, Hashing & Sicherheitsprotokolle' }
-                }
-            },
-            fr: {
-                status: 'en ligne',
-                security: '<strong>Cette page est protégée par les protocoles de sécurité les plus puissants de notre équipe.</strong><br>Tous les messages seront supprimés à la sortie.',
-                mainTitle: '+wormgpt Alfa',
-                subTitle: 'Comment puis-je vous aider aujourd\'hui ?',
-                placeholder: 'Demandez n\'importe quoi...',
-                footer: 'alimenté par',
-                features: {
-                    vuln: { label: 'VULN_SCAN', desc: 'Audit de code pour les CVEs' },
-                    net:  { label: 'NET_RECON', desc: 'Cartographie réseau et scan de ports' },
-                    exploit: { label: 'EXPLOIT_DEV', desc: 'Analyse d\'exploit éducative' },
-                    crypto: { label: 'CRYPTO_OPS', desc: 'Chiffrement, hachage et protocoles de sécurité' }
-                }
-            }
-        };
+        // ===== DOM REFS =====
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const modelChips = document.querySelectorAll('.model-chip');
+        const securityText = document.getElementById('securityText');
 
-        // ============================================================
-        // 2. DOM REFS
-        // ============================================================
-        const dom = {
-            status: document.getElementById('statusText'),
-            security: document.getElementById('securityText'),
-            mainTitle: document.getElementById('mainTitle'),
-            subTitle: document.getElementById('subTitle'),
-            placeholder: document.getElementById('userInput'),
-            footer: document.getElementById('footerText'),
-            featureLabels: document.querySelectorAll('.feature-btn .label'),
-            featureDescs: document.querySelectorAll('.feature-btn .desc'),
-            langBtns: document.querySelectorAll('.lang-btn'),
-            modelBtns: document.querySelectorAll('.model-btn'),
-            sendBtn: document.getElementById('sendBtn'),
-            input: document.getElementById('userInput'),
-            app: document.getElementById('app')
-        };
+        let currentModel = 'wormgpt-4o';
+        let isWaiting = false;
+        let lang = 'en';
 
-        // ============================================================
-        // 3. APPLY LANGUAGE
-        // ============================================================
-        function applyLanguage(lang) {
-            const t = L10N[lang] || L10N.en;
-
-            dom.status.textContent = t.status;
-            dom.security.innerHTML = t.security;
-            dom.mainTitle.textContent = t.mainTitle;
-            dom.subTitle.textContent = t.subTitle;
-            dom.placeholder.placeholder = t.placeholder;
-            dom.footer.textContent = t.footer;
-
-            // feature labels & descriptions
-            const featureKeys = ['vuln', 'net', 'exploit', 'crypto'];
-            dom.featureLabels.forEach((el, i) => {
-                const key = featureKeys[i];
-                if (t.features[key]) {
-                    el.textContent = t.features[key].label;
-                }
-            });
-            dom.featureDescs.forEach((el, i) => {
-                const key = featureKeys[i];
-                if (t.features[key]) {
-                    el.textContent = t.features[key].desc;
-                }
-            });
-
-            // highlight active lang button
-            dom.langBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
-            });
-
-            // store language
-            dom.app.dataset.lang = lang;
-            localStorage.setItem('wormgpt_lang', lang);
-
-            // notify Telegram (if inside WebApp)
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.sendData(JSON.stringify({ action: 'set_language', lang: lang }));
-            }
-
-            console.log('🌐 Language changed to:', lang);
+        // ===== GET LANGUAGE FROM URL =====
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        if (urlLang) {
+            lang = urlLang;
         }
 
-        // ============================================================
-        // 4. EVENT LISTENERS
-        // ============================================================
+        // ===== TRANSLATE SECURITY BANNER =====
+        const securityL10N = {
+            'en': '<strong>This page is protected by our team\'s strongest security protocols.</strong> All messages will be deleted upon exit.',
+            'fa': '<strong>این صفحه با قوی‌ترین پروتکل‌های امنیتی تیم ما محافظت می‌شود.</strong> پس از خروج، تمامی پیام‌ها پاک می‌شوند.',
+            'ar': '<strong>هذه الصفحة محمية بأقوى بروتوكولات الأمان لفريقنا.</strong> سيتم حذف جميع الرسائل عند الخروج.',
+            'az': '<strong>Bu səhifə komandamızın ən güclü təhlükəsizlik protokolları ilə qorunur.</strong> Çıxış zamanı bütün mesajlar silinəcək.',
+            'hi': '<strong>इस पेज को हमारी टीम के सबसे मजबूत सुरक्षा प्रोटोकॉल द्वारा संरक्षित किया जाता है.</strong> बाहर निकलने पर सभी संदेश हटा दिए जाएंगे।',
+            'de': '<strong>Diese Seite wird durch die stärksten Sicherheitsprotokolle unseres Teams geschützt.</strong> Alle Nachrichten werden beim Verlassen gelöscht.',
+            'fr': '<strong>Cette page est protégée par les protocoles de sécurité les plus puissants de notre équipe.</strong> Tous les messages seront supprimés à la sortie.'
+        };
+        if (securityL10N[lang]) {
+            securityText.innerHTML = securityL10N[lang];
+        }
 
-        // Language buttons
-        dom.langBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                applyLanguage(this.dataset.lang);
-            });
-        });
-
-        // Model selection
-        dom.modelBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                dom.modelBtns.forEach(b => b.classList.remove('active'));
+        // ===== MODEL SELECTION =====
+        modelChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                modelChips.forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
-                const model = this.dataset.model;
+                currentModel = this.dataset.model;
+                // notify bot
                 if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.sendData(JSON.stringify({ action: 'select_model', model: model }));
+                    Telegram.WebApp.sendData(JSON.stringify({
+                        action: 'select_model',
+                        model: currentModel
+                    }));
                 }
-                console.log('🧠 Model selected:', model);
+                console.log('🧠 Model changed to:', currentModel);
             });
         });
 
-        // Feature buttons
-        document.querySelectorAll('.feature-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const label = this.querySelector('.label')?.textContent || 'feature';
-                if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.sendData(JSON.stringify({ action: 'feature', feature: label }));
-                }
-                const input = dom.input;
-                if (input) {
-                    input.value = `/${label.toLowerCase().replace('_', '-')} `;
-                    input.focus();
-                }
-            });
-        });
+        // ===== ADD MESSAGE TO CHAT =====
+        function addMessage(text, isUser, modelName = null) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${isUser ? 'user' : 'bot'}`;
 
-        // Send message
-        function sendMessage() {
-            const text = dom.input.value.trim();
-            if (!text) return;
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.sendData(JSON.stringify({ action: 'message', text: text }));
-            } else {
-                alert(`📨 Message: "${text}" (would be sent to bot)`);
+            if (!isUser && modelName) {
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'model-name';
+                nameSpan.textContent = `🕸️ ${modelName}`;
+                msgDiv.appendChild(nameSpan);
             }
-            dom.input.value = '';
-            dom.input.focus();
+
+            // اگر متن خالی نبود
+            if (text) {
+                const textSpan = document.createElement('span');
+                textSpan.textContent = text;
+                msgDiv.appendChild(textSpan);
+            } else {
+                // تایپینگ
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('span');
+                    dot.className = 'typing';
+                    msgDiv.appendChild(dot);
+                }
+            }
+
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return msgDiv;
         }
 
-        dom.sendBtn.addEventListener('click', sendMessage);
-        dom.input.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') { e.preventDefault(); sendMessage(); }
-        });
+        // ===== SEND MESSAGE =====
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text || isWaiting) return;
 
-        // ============================================================
-        // 5. INIT
-        // ============================================================
+            // نمایش پیام کاربر
+            addMessage(text, true);
 
-        // Load saved language
-        let savedLang = localStorage.getItem('wormgpt_lang') || 'en';
+            // پاک کردن input
+            userInput.value = '';
+            userInput.focus();
 
-        // Try to get language from Telegram WebApp
+            // نمایش تایپینگ
+            const typingMsg = addMessage('', false);
+            isWaiting = true;
+            sendBtn.disabled = true;
+
+            // ارسال به بات از طریق WebApp
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({
+                    action: 'message',
+                    text: text,
+                    model: currentModel,
+                    lang: lang
+                }));
+            } else {
+                // حالت آفلاین (تست)
+                setTimeout(() => {
+                    const reply = `🔥 سلام کونی! (این پاسخ آزمایشی از Mini Appه)\n\nپرسیدی: "${text}"\n\nمدل فعلی: ${currentModel}\n(در حالت واقعی، پاسخ از OpenRouter میاد)`;
+                    typingMsg.remove();
+                    addMessage(reply, false, currentModel);
+                    isWaiting = false;
+                    sendBtn.disabled = false;
+                }, 1500);
+            }
+        }
+
+        // ===== RECEIVE MESSAGE FROM BOT =====
+        function receiveMessageFromBot(text, modelName) {
+            // حذف تایپینگ
+            const typingMsgs = chatMessages.querySelectorAll('.msg.bot:last-child');
+            const lastMsg = typingMsgs[typingMsgs.length - 1];
+            if (lastMsg && lastMsg.querySelector('.typing')) {
+                lastMsg.remove();
+            }
+
+            // نمایش پاسخ
+            addMessage(text, false, modelName || currentModel);
+            isWaiting = false;
+            sendBtn.disabled = false;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // ===== SETUP TELEGRAM WEBAPP =====
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
             console.log('🕸️ Telegram WebApp ready');
 
-            // if bot sent initData with language param
-            try {
-                const initData = Telegram.WebApp.initDataUnsafe;
-                if (initData && initData.user && initData.user.language_code) {
-                    const userLang = initData.user.language_code.split('-')[0];
-                    if (L10N[userLang]) savedLang = userLang;
+            // گوش دادن به پیام‌های بات
+            Telegram.WebApp.onEvent('message', function(data) {
+                try {
+                    const payload = typeof data === 'string' ? JSON.parse(data) : data;
+                    if (payload.action === 'bot_reply') {
+                        receiveMessageFromBot(payload.text, payload.model);
+                    }
+                } catch (e) {
+                    console.error('Error parsing message from bot:', e);
                 }
-            } catch (_) {}
+            });
+
+            // گوش دادن به بسته شدن
+            Telegram.WebApp.onEvent('close', function() {
+                console.log('🕸️ WebApp closed');
+            });
+
+        } else {
+            console.log('💻 Running in browser (offline mode)');
         }
 
-        applyLanguage(savedLang);
+        // ===== EVENT LISTENERS =====
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
 
-        // if URL has ?lang=...
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlLang = urlParams.get('lang');
-        if (urlLang && L10N[urlLang]) {
-            applyLanguage(urlLang);
+        // ===== EXPOSE FOR BOT CALLBACK =====
+        window.receiveMessageFromBot = receiveMessageFromBot;
+
+        // ===== NOTIFY BOT THAT WEBAPP IS READY =====
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.sendData(JSON.stringify({
+                action: 'webapp_ready',
+                lang: lang
+            }));
         }
 
-        console.log('🔥 +wormgpt Alfa loaded successfully');
+        console.log('🔥 +wormgpt Alfa Mini App loaded successfully');
+        console.log('🌐 Language:', lang);
+        console.log('🧠 Default model:', currentModel);
+
     })();
 </script>
-
 </body>
 </html>
