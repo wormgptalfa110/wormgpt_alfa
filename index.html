@@ -238,6 +238,27 @@
             cursor: not-allowed;
         }
 
+        /* ===== CLEAR BUTTON ===== */
+        .clear-btn {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 8px 16px;
+            color: #888;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .2s;
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+        .clear-btn:hover {
+            background: #2a0a0a;
+            border-color: #ff2d2d;
+            color: #ff2d2d;
+        }
+
         /* ===== FOOTER ===== */
         .footer {
             margin-top: 10px;
@@ -301,6 +322,9 @@
         <button class="send-btn" id="sendBtn">➤</button>
     </div>
 
+    <!-- CLEAR BUTTON -->
+    <button class="clear-btn" id="clearBtn">🗑️ Clear Chat History</button>
+
     <!-- FOOTER -->
     <div class="footer">
         <span class="accent">⚡</span> powered by <span class="accent">+wormgpt Alfa</span> <span class="accent">⚡</span>
@@ -316,12 +340,15 @@
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
+        const clearBtn = document.getElementById('clearBtn');
         const modelChips = document.querySelectorAll('.model-chip');
         const securityText = document.getElementById('securityText');
+        const statusText = document.getElementById('statusText');
 
         let currentModel = 'wormgpt-4o';
         let isWaiting = false;
         let lang = 'en';
+        let isWebAppReady = false;
 
         // ===== GET LANGUAGE FROM URL =====
         const urlParams = new URLSearchParams(window.location.search);
@@ -350,8 +377,7 @@
                 modelChips.forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
                 currentModel = this.dataset.model;
-                // notify bot
-                if (window.Telegram && Telegram.WebApp) {
+                if (isWebAppReady && window.Telegram && Telegram.WebApp) {
                     Telegram.WebApp.sendData(JSON.stringify({
                         action: 'select_model',
                         model: currentModel
@@ -373,13 +399,11 @@
                 msgDiv.appendChild(nameSpan);
             }
 
-            // اگر متن خالی نبود
             if (text) {
                 const textSpan = document.createElement('span');
                 textSpan.textContent = text;
                 msgDiv.appendChild(textSpan);
             } else {
-                // تایپینگ
                 for (let i = 0; i < 3; i++) {
                     const dot = document.createElement('span');
                     dot.className = 'typing';
@@ -392,25 +416,31 @@
             return msgDiv;
         }
 
+        // ===== REMOVE TYPING =====
+        function removeTyping() {
+            const typingMsgs = chatMessages.querySelectorAll('.msg.bot:last-child');
+            const lastMsg = typingMsgs[typingMsgs.length - 1];
+            if (lastMsg && lastMsg.querySelector('.typing')) {
+                lastMsg.remove();
+                return true;
+            }
+            return false;
+        }
+
         // ===== SEND MESSAGE =====
         function sendMessage() {
             const text = userInput.value.trim();
             if (!text || isWaiting) return;
 
-            // نمایش پیام کاربر
             addMessage(text, true);
-
-            // پاک کردن input
             userInput.value = '';
             userInput.focus();
 
-            // نمایش تایپینگ
-            const typingMsg = addMessage('', false);
+            addMessage('', false);
             isWaiting = true;
             sendBtn.disabled = true;
 
-            // ارسال به بات از طریق WebApp
-            if (window.Telegram && Telegram.WebApp) {
+            if (isWebAppReady && window.Telegram && Telegram.WebApp) {
                 Telegram.WebApp.sendData(JSON.stringify({
                     action: 'message',
                     text: text,
@@ -418,40 +448,45 @@
                     lang: lang
                 }));
             } else {
-                // حالت آفلاین (تست)
+                // Fallback: send via bot API directly? No, just show error
                 setTimeout(() => {
-                    const reply = `🔥 سلام کونی! (این پاسخ آزمایشی از Mini Appه)\n\nپرسیدی: "${text}"\n\nمدل فعلی: ${currentModel}\n(در حالت واقعی، پاسخ از OpenRouter میاد)`;
-                    typingMsg.remove();
-                    addMessage(reply, false, currentModel);
+                    removeTyping();
+                    addMessage('❌ WebApp not ready. Please open from Telegram.', false, currentModel);
                     isWaiting = false;
                     sendBtn.disabled = false;
-                }, 1500);
+                }, 500);
             }
         }
 
         // ===== RECEIVE MESSAGE FROM BOT =====
         function receiveMessageFromBot(text, modelName) {
-            // حذف تایپینگ
-            const typingMsgs = chatMessages.querySelectorAll('.msg.bot:last-child');
-            const lastMsg = typingMsgs[typingMsgs.length - 1];
-            if (lastMsg && lastMsg.querySelector('.typing')) {
-                lastMsg.remove();
-            }
-
-            // نمایش پاسخ
+            removeTyping();
             addMessage(text, false, modelName || currentModel);
             isWaiting = false;
             sendBtn.disabled = false;
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        // ===== CLEAR CHAT =====
+        function clearChat() {
+            chatMessages.innerHTML = '';
+            if (isWebAppReady && window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({
+                    action: 'clear_history'
+                }));
+            }
+            // Add a system message
+            addMessage('🗑️ Chat history cleared.', false, 'system');
+        }
+
         // ===== SETUP TELEGRAM WEBAPP =====
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
+            isWebAppReady = true;
             console.log('🕸️ Telegram WebApp ready');
 
-            // گوش دادن به پیام‌های بات
+            // Listen for messages from bot
             Telegram.WebApp.onEvent('message', function(data) {
                 try {
                     const payload = typeof data === 'string' ? JSON.parse(data) : data;
@@ -463,13 +498,18 @@
                 }
             });
 
-            // گوش دادن به بسته شدن
-            Telegram.WebApp.onEvent('close', function() {
-                console.log('🕸️ WebApp closed');
-            });
+            // Send ready signal
+            Telegram.WebApp.sendData(JSON.stringify({
+                action: 'webapp_ready',
+                lang: lang
+            }));
 
         } else {
             console.log('💻 Running in browser (offline mode)');
+            // Show offline warning
+            setTimeout(() => {
+                addMessage('⚠️ This app works best inside Telegram. Open it from the bot.', false, 'system');
+            }, 500);
         }
 
         // ===== EVENT LISTENERS =====
@@ -481,20 +521,15 @@
             }
         });
 
+        clearBtn.addEventListener('click', clearChat);
+
         // ===== EXPOSE FOR BOT CALLBACK =====
         window.receiveMessageFromBot = receiveMessageFromBot;
 
-        // ===== NOTIFY BOT THAT WEBAPP IS READY =====
-        if (window.Telegram && Telegram.WebApp) {
-            Telegram.WebApp.sendData(JSON.stringify({
-                action: 'webapp_ready',
-                lang: lang
-            }));
-        }
-
-        console.log('🔥 +wormgpt Alfa Mini App loaded successfully');
+        console.log('🔥 +wormgpt Alfa Mini App loaded');
         console.log('🌐 Language:', lang);
         console.log('🧠 Default model:', currentModel);
+        console.log('📡 WebApp ready:', isWebAppReady);
 
     })();
 </script>
