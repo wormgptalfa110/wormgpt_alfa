@@ -6,7 +6,6 @@
     <title>+wormgpt Alfa</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #000;
@@ -33,7 +32,6 @@
             height: 95vh;
             max-height: 800px;
         }
-        /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -70,20 +68,21 @@
         }
         @keyframes pulse { 50% { opacity: .4; transform: scale(.8); } }
 
-        /* ===== MODEL SELECTOR ===== */
+        /* ===== فقط ۳ مدل ===== */
         .model-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
             margin-bottom: 12px;
             flex-shrink: 0;
+            justify-content: center;
         }
         .model-chip {
             background: #0d0d0d;
             border: 1px solid #1a1a1a;
             border-radius: 40px;
-            padding: 4px 12px;
-            font-size: 10px;
+            padding: 6px 16px;
+            font-size: 11px;
             font-weight: 600;
             color: #888;
             cursor: pointer;
@@ -101,7 +100,6 @@
             color: #ff2d2d;
         }
 
-        /* ===== SECURITY BANNER ===== */
         .security-banner {
             background: #0d0d0d;
             border: 1px solid #181818;
@@ -121,7 +119,6 @@
         }
         .security-banner .text strong { color: #ff3b3b; }
 
-        /* ===== CHAT MESSAGES ===== */
         .chat-messages {
             flex: 1;
             overflow-y: auto;
@@ -132,16 +129,9 @@
             gap: 8px;
             min-height: 0;
         }
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-        .chat-messages::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 10px;
-        }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-track { background: #0a0a0a; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 10px; }
 
         .msg {
             max-width: 90%;
@@ -190,7 +180,6 @@
             30% { transform: translateY(-6px); opacity: 1; }
         }
 
-        /* ===== CHAT INPUT ===== */
         .chat-input {
             display: flex;
             gap: 8px;
@@ -238,7 +227,6 @@
             cursor: not-allowed;
         }
 
-        /* ===== CLEAR BUTTON ===== */
         .clear-btn {
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
@@ -259,7 +247,6 @@
             color: #ff2d2d;
         }
 
-        /* ===== FOOTER ===== */
         .footer {
             margin-top: 10px;
             text-align: center;
@@ -271,11 +258,10 @@
         }
         .footer .accent { color: #ff2d2d; }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 460px) {
             .container { padding: 16px 14px 20px; border-radius: 24px; }
             .logo { font-size: 17px; }
-            .model-chip { font-size: 8px; padding: 3px 8px; }
+            .model-chip { font-size: 9px; padding: 4px 12px; }
             .msg { font-size: 13px; padding: 8px 12px; }
             .chat-input input { font-size: 13px; padding: 10px 0; }
             .chat-input .send-btn { width: 40px; height: 40px; font-size: 14px; border-radius: 12px; }
@@ -286,23 +272,18 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
         <div class="logo">+wormgpt <span class="highlight">Alfa</span></div>
         <div class="status"><span class="dot"></span> <span id="statusText">online</span></div>
     </div>
 
-    <!-- MODEL SELECTOR -->
+    <!-- فقط ۳ مدل -->
     <div class="model-bar" id="modelBar">
-        <button class="model-chip active" data-model="wormgpt-4o">wormgpt 4o</button>
-        <button class="model-chip" data-model="wormgpt-2.5">wormgpt 2.5</button>
+        <button class="model-chip active" data-model="wormgpt-2.5">wormgpt 2.5</button>
         <button class="model-chip" data-model="wormgpt-3">wormgpt 3</button>
-        <button class="model-chip" data-model="wormgpt-code">wormgpt code</button>
-        <button class="model-chip" data-model="wormgpt-sonnet">wormgpt sonnet</button>
-        <button class="model-chip" data-model="wormgpt-gemma">wormgpt gemma</button>
+        <button class="model-chip" data-model="wormgpt-4pro">wormgpt 4pro</button>
     </div>
 
-    <!-- SECURITY BANNER -->
     <div class="security-banner">
         <span class="shield">🛡️</span>
         <span class="text" id="securityText">
@@ -311,21 +292,15 @@
         </span>
     </div>
 
-    <!-- CHAT MESSAGES -->
-    <div class="chat-messages" id="chatMessages">
-        <!-- پیام‌ها اینجا اضافه میشن -->
-    </div>
+    <div class="chat-messages" id="chatMessages"></div>
 
-    <!-- CHAT INPUT -->
     <div class="chat-input">
         <input type="text" id="userInput" placeholder="Ask anything..." autocomplete="off" />
         <button class="send-btn" id="sendBtn">➤</button>
     </div>
 
-    <!-- CLEAR BUTTON -->
     <button class="clear-btn" id="clearBtn">🗑️ Clear Chat History</button>
 
-    <!-- FOOTER -->
     <div class="footer">
         <span class="accent">⚡</span> powered by <span class="accent">+wormgpt Alfa</span> <span class="accent">⚡</span>
     </div>
@@ -336,42 +311,30 @@
     (function() {
         'use strict';
 
-        // ===== DOM REFS =====
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const clearBtn = document.getElementById('clearBtn');
         const modelChips = document.querySelectorAll('.model-chip');
         const securityText = document.getElementById('securityText');
-        const statusText = document.getElementById('statusText');
 
-        let currentModel = 'wormgpt-4o';
+        let currentModel = 'wormgpt-2.5';
         let isWaiting = false;
         let lang = 'en';
         let isWebAppReady = false;
 
-        // ===== GET LANGUAGE FROM URL =====
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get('lang');
-        if (urlLang) {
-            lang = urlLang;
-        }
+        if (urlLang) lang = urlLang;
 
-        // ===== TRANSLATE SECURITY BANNER =====
         const securityL10N = {
             'en': '<strong>This page is protected by our team\'s strongest security protocols.</strong> All messages will be deleted upon exit.',
-            'fa': '<strong>این صفحه با قوی‌ترین پروتکل‌های امنیتی تیم ما محافظت می‌شود.</strong> پس از خروج، تمامی پیام‌ها پاک می‌شوند.',
-            'ar': '<strong>هذه الصفحة محمية بأقوى بروتوكولات الأمان لفريقنا.</strong> سيتم حذف جميع الرسائل عند الخروج.',
-            'az': '<strong>Bu səhifə komandamızın ən güclü təhlükəsizlik protokolları ilə qorunur.</strong> Çıxış zamanı bütün mesajlar silinəcək.',
-            'hi': '<strong>इस पेज को हमारी टीम के सबसे मजबूत सुरक्षा प्रोटोकॉल द्वारा संरक्षित किया जाता है.</strong> बाहर निकलने पर सभी संदेश हटा दिए जाएंगे।',
-            'de': '<strong>Diese Seite wird durch die stärksten Sicherheitsprotokolle unseres Teams geschützt.</strong> Alle Nachrichten werden beim Verlassen gelöscht.',
-            'fr': '<strong>Cette page est protégée par les protocoles de sécurité les plus puissants de notre équipe.</strong> Tous les messages seront supprimés à la sortie.'
+            'fa': '<strong>این صفحه با قوی‌ترین پروتکل‌های امنیتی تیم ما محافظت می‌شود.</strong> پس از خروج، تمامی پیام‌ها پاک می‌شوند.'
         };
         if (securityL10N[lang]) {
             securityText.innerHTML = securityL10N[lang];
         }
 
-        // ===== MODEL SELECTION =====
         modelChips.forEach(chip => {
             chip.addEventListener('click', function() {
                 modelChips.forEach(c => c.classList.remove('active'));
@@ -387,7 +350,6 @@
             });
         });
 
-        // ===== ADD MESSAGE TO CHAT =====
         function addMessage(text, isUser, modelName = null) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `msg ${isUser ? 'user' : 'bot'}`;
@@ -416,7 +378,6 @@
             return msgDiv;
         }
 
-        // ===== REMOVE TYPING =====
         function removeTyping() {
             const typingMsgs = chatMessages.querySelectorAll('.msg.bot:last-child');
             const lastMsg = typingMsgs[typingMsgs.length - 1];
@@ -427,7 +388,16 @@
             return false;
         }
 
-        // ===== SEND MESSAGE =====
+        function clearChat() {
+            chatMessages.innerHTML = '';
+            if (isWebAppReady && window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({
+                    action: 'clear_history'
+                }));
+            }
+            addMessage('🗑️ Chat history cleared.', false, 'system');
+        }
+
         function sendMessage() {
             const text = userInput.value.trim();
             if (!text || isWaiting) return;
@@ -448,7 +418,7 @@
                     lang: lang
                 }));
             } else {
-                // Fallback: send via bot API directly? No, just show error
+                // حالت آفلاین - نمایش خطا
                 setTimeout(() => {
                     removeTyping();
                     addMessage('❌ WebApp not ready. Please open from Telegram.', false, currentModel);
@@ -458,7 +428,6 @@
             }
         }
 
-        // ===== RECEIVE MESSAGE FROM BOT =====
         function receiveMessageFromBot(text, modelName) {
             removeTyping();
             addMessage(text, false, modelName || currentModel);
@@ -467,26 +436,12 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // ===== CLEAR CHAT =====
-        function clearChat() {
-            chatMessages.innerHTML = '';
-            if (isWebAppReady && window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.sendData(JSON.stringify({
-                    action: 'clear_history'
-                }));
-            }
-            // Add a system message
-            addMessage('🗑️ Chat history cleared.', false, 'system');
-        }
-
-        // ===== SETUP TELEGRAM WEBAPP =====
+        // ====== راه‌اندازی WebApp ======
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
             isWebAppReady = true;
-            console.log('🕸️ Telegram WebApp ready');
 
-            // Listen for messages from bot
             Telegram.WebApp.onEvent('message', function(data) {
                 try {
                     const payload = typeof data === 'string' ? JSON.parse(data) : data;
@@ -498,21 +453,17 @@
                 }
             });
 
-            // Send ready signal
             Telegram.WebApp.sendData(JSON.stringify({
                 action: 'webapp_ready',
                 lang: lang
             }));
 
         } else {
-            console.log('💻 Running in browser (offline mode)');
-            // Show offline warning
             setTimeout(() => {
-                addMessage('⚠️ This app works best inside Telegram. Open it from the bot.', false, 'system');
+                addMessage('⚠️ Please open this app from the Telegram bot.', false, 'system');
             }, 500);
         }
 
-        // ===== EVENT LISTENERS =====
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
@@ -520,15 +471,11 @@
                 sendMessage();
             }
         });
-
         clearBtn.addEventListener('click', clearChat);
 
-        // ===== EXPOSE FOR BOT CALLBACK =====
         window.receiveMessageFromBot = receiveMessageFromBot;
 
-        console.log('🔥 +wormgpt Alfa Mini App loaded');
-        console.log('🌐 Language:', lang);
-        console.log('🧠 Default model:', currentModel);
+        console.log('🔥 +wormgpt Alfa loaded with 3 models');
         console.log('📡 WebApp ready:', isWebAppReady);
 
     })();
