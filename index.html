@@ -68,7 +68,6 @@
         }
         @keyframes pulse { 50% { opacity: .4; transform: scale(.8); } }
 
-        /* ===== فقط ۳ مدل ===== */
         .model-bar {
             display: flex;
             flex-wrap: wrap;
@@ -258,6 +257,17 @@
         }
         .footer .accent { color: #ff2d2d; }
 
+        .error-box {
+            background: #1a0000;
+            border: 1px solid #ff2d2d;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #ff6666;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
         @media (max-width: 460px) {
             .container { padding: 16px 14px 20px; border-radius: 24px; }
             .logo { font-size: 17px; }
@@ -277,7 +287,6 @@
         <div class="status"><span class="dot"></span> <span id="statusText">online</span></div>
     </div>
 
-    <!-- فقط ۳ مدل -->
     <div class="model-bar" id="modelBar">
         <button class="model-chip active" data-model="wormgpt-2.5">wormgpt 2.5</button>
         <button class="model-chip" data-model="wormgpt-3">wormgpt 3</button>
@@ -290,6 +299,11 @@
             <strong>This page is protected by our team's strongest security protocols.</strong>
             All messages will be deleted upon exit.
         </span>
+    </div>
+
+    <!-- نمایش پیام خطا در صورت عدم وجود WebApp -->
+    <div id="webappError" class="error-box" style="display:none;">
+        ⚠️ Please open this app from the Telegram bot.
     </div>
 
     <div class="chat-messages" id="chatMessages"></div>
@@ -317,6 +331,8 @@
         const clearBtn = document.getElementById('clearBtn');
         const modelChips = document.querySelectorAll('.model-chip');
         const securityText = document.getElementById('securityText');
+        const statusText = document.getElementById('statusText');
+        const errorBox = document.getElementById('webappError');
 
         let currentModel = 'wormgpt-2.5';
         let isWaiting = false;
@@ -327,14 +343,21 @@
         const urlLang = urlParams.get('lang');
         if (urlLang) lang = urlLang;
 
+        // ====== ترجمه‌های امنیتی ======
         const securityL10N = {
             'en': '<strong>This page is protected by our team\'s strongest security protocols.</strong> All messages will be deleted upon exit.',
-            'fa': '<strong>این صفحه با قوی‌ترین پروتکل‌های امنیتی تیم ما محافظت می‌شود.</strong> پس از خروج، تمامی پیام‌ها پاک می‌شوند.'
+            'ar': '<strong>هذه الصفحة محمية بأقوى بروتوكولات الأمان لفريقنا.</strong> سيتم حذف جميع الرسائل عند الخروج.',
+            'fa': '<strong>این صفحه با قوی‌ترین پروتکل‌های امنیتی تیم ما محافظت می‌شود.</strong> پس از خروج، تمامی پیام‌ها پاک می‌شوند.',
+            'az': '<strong>Bu səhifə komandamızın ən güclü təhlükəsizlik protokolları ilə qorunur.</strong> Çıxış zamanı bütün mesajlar silinəcək.',
+            'hi': '<strong>इस पेज को हमारी टीम के सबसे मजबूत सुरक्षा प्रोटोकॉल द्वारा संरक्षित किया जाता है.</strong> बाहर निकलने पर सभी संदेश हटा दिए जाएंगे।',
+            'de': '<strong>Diese Seite wird durch die stärksten Sicherheitsprotokolle unseres Teams geschützt.</strong> Alle Nachrichten werden beim Verlassen gelöscht.',
+            'fr': '<strong>Cette page est protégée par les protocoles de sécurité les plus puissants de notre équipe.</strong> Tous les messages seront supprimés à la sortie.'
         };
         if (securityL10N[lang]) {
             securityText.innerHTML = securityL10N[lang];
         }
 
+        // ====== انتخاب مدل ======
         modelChips.forEach(chip => {
             chip.addEventListener('click', function() {
                 modelChips.forEach(c => c.classList.remove('active'));
@@ -350,6 +373,7 @@
             });
         });
 
+        // ====== توابع چت ======
         function addMessage(text, isUser, modelName = null) {
             const msgDiv = document.createElement('div');
             msgDiv.className = `msg ${isUser ? 'user' : 'bot'}`;
@@ -402,6 +426,11 @@
             const text = userInput.value.trim();
             if (!text || isWaiting) return;
 
+            if (!isWebAppReady) {
+                addMessage('❌ WebApp not ready. Please open from Telegram.', false, currentModel);
+                return;
+            }
+
             addMessage(text, true);
             userInput.value = '';
             userInput.focus();
@@ -410,21 +439,13 @@
             isWaiting = true;
             sendBtn.disabled = true;
 
-            if (isWebAppReady && window.Telegram && Telegram.WebApp) {
+            if (window.Telegram && Telegram.WebApp) {
                 Telegram.WebApp.sendData(JSON.stringify({
                     action: 'message',
                     text: text,
                     model: currentModel,
                     lang: lang
                 }));
-            } else {
-                // حالت آفلاین - نمایش خطا
-                setTimeout(() => {
-                    removeTyping();
-                    addMessage('❌ WebApp not ready. Please open from Telegram.', false, currentModel);
-                    isWaiting = false;
-                    sendBtn.disabled = false;
-                }, 500);
             }
         }
 
@@ -436,11 +457,13 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // ====== راه‌اندازی WebApp ======
+        // ====== راه‌اندازی Telegram WebApp ======
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
             isWebAppReady = true;
+            statusText.textContent = 'connected';
+            errorBox.style.display = 'none';
 
             Telegram.WebApp.onEvent('message', function(data) {
                 try {
@@ -459,11 +482,15 @@
             }));
 
         } else {
-            setTimeout(() => {
-                addMessage('⚠️ Please open this app from the Telegram bot.', false, 'system');
-            }, 500);
+            // حالت آفلاین - نمایش خطا
+            isWebAppReady = false;
+            statusText.textContent = 'offline';
+            errorBox.style.display = 'block';
+            errorBox.textContent = '⚠️ Please open this app from the Telegram bot.';
+            addMessage('⚠️ Please open this app from the Telegram bot.', false, 'system');
         }
 
+        // ====== رویدادها ======
         sendBtn.addEventListener('click', sendMessage);
         userInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
@@ -475,8 +502,9 @@
 
         window.receiveMessageFromBot = receiveMessageFromBot;
 
-        console.log('🔥 +wormgpt Alfa loaded with 3 models');
+        console.log('🔥 +wormgpt Alfa loaded');
         console.log('📡 WebApp ready:', isWebAppReady);
+        console.log('🌐 Language:', lang);
 
     })();
 </script>
